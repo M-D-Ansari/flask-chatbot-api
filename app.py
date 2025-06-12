@@ -10,11 +10,11 @@ from datetime import datetime
 from google.genai import types, Client
 from google.api_core import retry
 import re
-CORS(app)
+
 
 app = Flask(__name__)
 app.secret_key = "MySecretKey1194"
-
+CORS(app)
 client = Client(api_key="AIzaSyC_Rxw2816l5IU0N3c7sZFoLnhsi3qOEiA")
 
 SESSIONS_FILE = "session.json"
