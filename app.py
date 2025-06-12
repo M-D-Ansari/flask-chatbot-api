@@ -1,3 +1,5 @@
+from flask_cors import CORS
+
 from flask import Flask, render_template, request, jsonify, session
 import pandas as pd
 import numpy as np
@@ -8,6 +10,7 @@ from datetime import datetime
 from google.genai import types, Client
 from google.api_core import retry
 import re
+CORS(app)
 
 app = Flask(__name__)
 app.secret_key = "MySecretKey1194"
