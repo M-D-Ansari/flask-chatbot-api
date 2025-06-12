@@ -1,3 +1,6 @@
+from flask_cors import CORS
+CORS(app)
+
 from flask import Flask, render_template, request, jsonify, session
 import pandas as pd
 import numpy as np
