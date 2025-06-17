@@ -22,6 +22,11 @@ mongo_client = MongoClient(mongo_uri)
 mongo_db = mongo_client["theem"]
 profile_collection = mongo_db["profiles"]  
 
+mongo_uri = "mongodb+srv://mohammaddanishansari0307:mdabcd@devpost.kyoxdfl.mongodb.net/theem?retryWrites=true&w=majority"
+mongo_client = MongoClient(mongo_uri)
+mongo_db = mongo_client["theem"]
+profile_collection = mongo_db["profiles"]  
+
 SESSIONS_FILE = "session.json"
 
 def load_sessions():
@@ -88,6 +93,14 @@ def get_user_profile(user_id):
     return profile
 
 def mental_health_rag_response(query, user_profile=None):
+def get_user_profile(user_id):
+    """Fetch user profile from MongoDB based on user_id"""
+    profile = profile_collection.find_one({"userId": user_id})
+    if profile:
+        profile.pop("_id", None)  
+    return profile
+
+def mental_health_rag_response(query, user_profile=None):
     extracted_name = extract_name(query)
     if extracted_name:
         session['user_name'] = extracted_name.capitalize()
@@ -112,7 +125,10 @@ def mental_health_rag_response(query, user_profile=None):
 
     profile_info = json.dumps(user_profile, indent=2) if user_profile else "No profile data available"
 
+    profile_info = json.dumps(user_profile, indent=2) if user_profile else "No profile data available"
+
     prompt = f"""
+You are Pandora, a kind and empathetic mental health therapist.
 You are Pandora, a kind and empathetic mental health therapist.
 
 Your job is to respond to the user’s latest message while:
@@ -124,8 +140,16 @@ Your job is to respond to the user’s latest message while:
 - If no name provided, use 'Guest'. Do not assume any name.
 - Recommend helpful resources or coping strategies when appropriate,
 - Keep responses concise and focused on user needs,
+- using relevant context examples,
+- incorporating available user profile information,
+- Don't reply to topics not related to mental health and decline politely,
+- If no name provided, use 'Guest'. Do not assume any name.
+- Recommend helpful resources or coping strategies when appropriate,
+- Keep responses concise and focused on user needs,
 - Always be supportive and non-judgmental.
 
+User Profile Data:
+{profile_info}
 User Profile Data:
 {profile_info}
 
@@ -195,9 +219,16 @@ def chat():
     user_input = data.get("query", "")
     user_id = data.get("user_id", None)  # <-- getting user_id from frontend
 
+    data = request.json
+    user_input = data.get("query", "")
+    user_id = data.get("user_id", None)  # <-- getting user_id from frontend
+
     if not user_input:
         return jsonify({"error": "Empty query"}), 400
 
+    user_profile = get_user_profile(user_id) if user_id else None
+
+    response_data = mental_health_rag_response(user_input, user_profile=user_profile)
     user_profile = get_user_profile(user_id) if user_id else None
 
     response_data = mental_health_rag_response(user_input, user_profile=user_profile)
