@@ -9,10 +9,12 @@ from google.genai import types, Client
 from google.api_core import retry
 import re
 from pymongo import MongoClient
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = "MySecretKey1194"
 
+CORS(app)
 client = Client(api_key="AIzaSyC_Rxw2816l5IU0N3c7sZFoLnhsi3qOEiA")
 
 mongo_uri = "mongodb+srv://mohammaddanishansari0307:mdabcd@devpost.kyoxdfl.mongodb.net/theem?retryWrites=true&w=majority"
@@ -221,4 +223,4 @@ def chat():
     return jsonify(response_data)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+  app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
