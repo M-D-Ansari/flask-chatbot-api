@@ -398,32 +398,16 @@
             "messages": []
         },
         {
-            "session_id": "2025-06-09T20:34:29.599590",
+            "session_id": "2025-06-17T11:14:19.841317",
             "user_name": "Guest",
             "messages": [
                 {
                     "sender": "user",
-                    "text": "i do not feel good today"
+                    "text": "hello who am i?"
                 },
                 {
                     "sender": "bot",
-                    "text": "I'm sorry to hear that you're not feeling well today. Can you tell me more about what's going on? Sometimes talking about it can help, or we can explore some coping strategies together."
-                },
-                {
-                    "sender": "user",
-                    "text": "Describe your feelings"
-                },
-                {
-                    "sender": "bot",
-                    "text": "I understand you're having trouble describing your feelings. That's perfectly okay, it can be difficult sometimes. To help me understand, could you tell me if it's a physical feeling, an emotion, or perhaps a combination of both? We can explore strategies like using a feelings wheel or practicing mindfulness to help you identify and articulate what you're experiencing."
-                },
-                {
-                    "sender": "user",
-                    "text": "i have headache"
-                },
-                {
-                    "sender": "bot",
-                    "text": "I'm sorry to hear you have a headache. Headaches can be really disruptive. Could you describe the headache to me? Where is the pain, and what does it feel like? Knowing more will help me suggest some possible coping strategies. We can explore relaxation techniques, mindfulness exercises, or even discuss over-the-counter pain relief options, but I am not able to prescribe medication."
+                    "text": "Hello Guest, as a mental health tool, I'm not designed to determine your identity. My purpose is to support your mental and emotional well-being. Perhaps we can explore how you're feeling or what's on your mind?"
                 }
             ]
         }
