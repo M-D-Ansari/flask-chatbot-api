@@ -92,7 +92,7 @@ def get_user_profile(user_id):
         profile.pop("_id", None)  
     return profile
 
-def mental_health_rag_response(query, user_profile=None):
+# def mental_health_rag_response(query, user_profile=None):
 def get_user_profile(user_id):
     """Fetch user profile from MongoDB based on user_id"""
     profile = profile_collection.find_one({"userId": user_id})
