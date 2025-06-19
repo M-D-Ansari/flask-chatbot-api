@@ -410,6 +410,25 @@
                     "text": "Hello Guest, as a mental health tool, I'm not designed to determine your identity. My purpose is to support your mental and emotional well-being. Perhaps we can explore how you're feeling or what's on your mind?"
                 }
             ]
+        },
+        {
+            "session_id": "2025-06-17T21:33:36.578817",
+            "user_name": "Guest",
+            "messages": []
+        },
+        {
+            "session_id": "2025-06-19T13:52:24.065755",
+            "user_name": "Guest",
+            "messages": [
+                {
+                    "sender": "user",
+                    "text": "i do not feel good today"
+                },
+                {
+                    "sender": "bot",
+                    "text": "I'm sorry to hear you're not feeling well today, Guest. It takes courage to acknowledge that. Can you tell me a little more about what's going on?"
+                }
+            ]
         }
     ]
 }

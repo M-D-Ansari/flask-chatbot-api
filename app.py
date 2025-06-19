@@ -10,21 +10,17 @@ from google.api_core import retry
 import re
 from pymongo import MongoClient
 from flask_cors import CORS
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
 app = Flask(__name__)
-app.secret_key = "MySecretKey1194"
+app.secret_key = os.getenv("SECRET_KEY")
 
 CORS(app)
-client = Client(api_key="AIzaSyC_Rxw2816l5IU0N3c7sZFoLnhsi3qOEiA")
-
-mongo_uri = "mongodb+srv://mohammaddanishansari0307:mdabcd@devpost.kyoxdfl.mongodb.net/theem?retryWrites=true&w=majority"
+client = Client(api_key=os.getenv("GOOGLE_API_KEY"))
+mongo_uri = os.getenv("MONGO_URI")
 mongo_client = MongoClient(mongo_uri)
-mongo_db = mongo_client["theem"]
-profile_collection = mongo_db["profiles"]  
-
-mongo_uri = "mongodb+srv://mohammaddanishansari0307:mdabcd@devpost.kyoxdfl.mongodb.net/theem?retryWrites=true&w=majority"
-mongo_client = MongoClient(mongo_uri)
-mongo_db = mongo_client["theem"]
+mongo_db = mongo_client["test"]
 profile_collection = mongo_db["profiles"]  
 
 SESSIONS_FILE = "session.json"
@@ -92,7 +88,7 @@ def get_user_profile(user_id):
         profile.pop("_id", None)  
     return profile
 
-def mental_health_rag_response(query, user_profile=None):
+# def mental_health_rag_response(query, user_profile=None):
 def get_user_profile(user_id):
     """Fetch user profile from MongoDB based on user_id"""
     profile = profile_collection.find_one({"userId": user_id})
