@@ -1,3 +1,5 @@
+from flask_cors import CORS
+
 from flask import Flask, render_template, request, jsonify, session
 import pandas as pd
 import numpy as np
@@ -9,9 +11,9 @@ from google.genai import types, Client
 from google.api_core import retry
 import re
 
+
 app = Flask(__name__)
 app.secret_key = "MySecretKey1194"
-
 CORS(app)
 client = Client(api_key="AIzaSyC_Rxw2816l5IU0N3c7sZFoLnhsi3qOEiA")
 
@@ -221,4 +223,4 @@ def latest_session():
     return jsonify(session_data if session_data else {"messages": []})
 
 if __name__ == "__main__":
-  app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
