@@ -1,3 +1,5 @@
+from flask_cors import CORS
+
 from flask import Flask, render_template, request, jsonify, session
 import pandas as pd
 import numpy as np
@@ -105,6 +107,7 @@ def mental_health_rag_response(query, user_profile=None):
     session_id = session.get("session_id", None)
 
     sessions_data = load_sessions()
+
     current_session = get_session_by_id(session_id, sessions_data) if session_id else None
 
     history = ""
@@ -119,35 +122,24 @@ def mental_health_rag_response(query, user_profile=None):
         for item in top_matches
     ])
 
-    profile_info = json.dumps(user_profile, indent=2) if user_profile else "No profile data available"
-
-    profile_info = json.dumps(user_profile, indent=2) if user_profile else "No profile data available"
-
     prompt = f"""
-You are Pandora, a kind and empathetic mental health therapist.
-You are Pandora, a kind and empathetic mental health therapist.
+You are Thera, a kind and empathetic mental health therapist.
 
 Your job is to respond to the user’s latest message while:
 - remembering the user's name from earlier if provided,
 - referencing accurate past conversation from history,
-- using relevant context examples,
-- incorporating available user profile information,
-- Don't reply to topics not related to mental health and decline politely,
-- If no name provided, use 'Guest'. Do not assume any name.
-- Recommend helpful resources or coping strategies when appropriate,
-- Keep responses concise and focused on user needs,
-- using relevant context examples,
-- incorporating available user profile information,
-- Don't reply to topics not related to mental health and decline politely,
-- If no name provided, use 'Guest'. Do not assume any name.
-- Recommend helpful resources or coping strategies when appropriate,
-- Keep responses concise and focused on user needs,
+- using relevant context examples.
+- Dont reply topics which are not related to mental health and decline politely.
+- If the user has not provided a name, use "Guest".
+- If the user has provided a name, use it in your response.
+- Do not mention the user's name in your response if it is not provided.
+- Recommend helpful resources or coping strategies when appropriate.
+- Keep responses concise and focused on the user's needs.
 - Always be supportive and non-judgmental.
+- When needed you can suggest the user general medication or therapy options, but do not prescribe specific treatments.
+- Try to avoid repeating the same suggestions or responses.
 
-User Profile Data:
-{profile_info}
-User Profile Data:
-{profile_info}
+
 
 Remembered name: {remembered_name}
 
@@ -200,37 +192,30 @@ Reply ONLY in the following JSON format:
 @app.route("/")
 def index():
     session.clear()
+
     user_name = "Guest"
+
     sessions_data = load_sessions()
     new_session = create_new_session(user_name)
     sessions_data["sessions"].append(new_session)
     session["session_id"] = new_session["session_id"]
     session["user_name"] = user_name
+
     save_sessions(sessions_data)
+
     return render_template("index.html")
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.json
-    user_input = data.get("query", "")
-    user_id = data.get("user_id", None)  # <-- getting user_id from frontend
-
-    data = request.json
-    user_input = data.get("query", "")
-    user_id = data.get("user_id", None)  # <-- getting user_id from frontend
-
+    user_input = request.json.get("query", "")
     if not user_input:
         return jsonify({"error": "Empty query"}), 400
 
-    user_profile = get_user_profile(user_id) if user_id else None
-
-    response_data = mental_health_rag_response(user_input, user_profile=user_profile)
-    user_profile = get_user_profile(user_id) if user_id else None
-
-    response_data = mental_health_rag_response(user_input, user_profile=user_profile)
+    response_data = mental_health_rag_response(user_input)
 
     user_name = session.get("user_name", "Guest")
     session_id = session.get("session_id")
+
     sessions_data = load_sessions()
 
     if session_id:
@@ -248,6 +233,17 @@ def chat():
 
     save_sessions(sessions_data)
     return jsonify(response_data)
+
+def get_latest_session():
+    sessions_data = load_sessions()
+    if sessions_data["sessions"]:
+        return sessions_data["sessions"][-1]
+    return None
+
+@app.route("/latest_session", methods=["GET"])
+def latest_session():
+    session_data = get_latest_session()
+    return jsonify(session_data if session_data else {"messages": []})
 
 if __name__ == "__main__":
   app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
