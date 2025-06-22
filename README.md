@@ -1,5 +1,3 @@
-# flask-chatbot-api
-
 # Flask Chatbot API
 
 This project implements a chatbot API using Flask, integrating generative AI capabilities with support for emotion detection.
@@ -33,5 +31,22 @@ The project requires the following Python libraries:
 - Google GenAI
 
 To install dependencies, use:
-```bash
+```
 pip install -r requirements.txt
+```
+
+Usage
+Clone the repository:
+
+```
+git clone <repository-url>
+cd flask-chatbot-api-main
+Install dependencies.
+```
+
+Run the application:
+```
+python app.py
+```
+
+Open your browser and navigate to http://127.0.0.1:5000
