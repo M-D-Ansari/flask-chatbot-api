@@ -51,3 +51,10 @@ python app.py
 ```
 
 Open your browser and navigate to http://127.0.0.1:5000
+
+
+## Future Scope
+
+- Integrate voice-based and video-based emotion detection.
+- Enhance chatbot intelligence with additional datasets.
+- Add analytics for better interaction insights.
