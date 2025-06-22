@@ -41,8 +41,9 @@ Clone the repository:
 ```
 git clone <repository-url>
 cd flask-chatbot-api-main
-Install dependencies.
 ```
+
+Install dependencies.
 
 Run the application:
 ```
